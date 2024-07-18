@@ -9,3 +9,6 @@ pivot_table.py
   
 protein_length.py
   Program to fetch protein sequence length from UniProt
+
+split.py
+  To split cell elements seperated by ';' and add it into next row
