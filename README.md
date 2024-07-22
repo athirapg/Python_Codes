@@ -12,3 +12,6 @@ protein_length.py
 
 split.py
   To split cell elements seperated by ';' and add it into next row
+
+Pubchem_id_fetch.py
+  To fetch Pubchem ids for metabolites
