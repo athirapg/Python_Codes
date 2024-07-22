@@ -1,0 +1,41 @@
+import pandas as pd
+import requests
+
+def get_cid(metabolite_name):
+    url = f"https://pubchem.ncbi.nlm.nih.gov/rest/pug/compound/name/{metabolite_name}/cids/JSON"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        if "IdentifierList" in data:
+            return data["IdentifierList"]["CID"][0]
+    return None
+
+def fetch_cids(metabolite_names):
+    cids = {}
+    for name in metabolite_names:
+        cid = get_cid(name)
+        if cid:
+            cids[name] = cid
+        else:
+            cids[name] = "CID not found"
+    return cids
+
+def read_metabolite_names_from_excel(file_path, sheet_name='Sheet3', column_name='Name'):
+    df = pd.read_excel(file_path, sheet_name=sheet_name)
+    metabolite_names = df[column_name].dropna().tolist()
+    return metabolite_names
+
+def save_cids_to_excel(cids, output_file_path):
+    df = pd.DataFrame(list(cids.items()), columns=['Metabolite', 'CID'])
+    df.to_excel(output_file_path, index=False)
+
+input_excel_file_path = 'metabolites.xlsx'
+output_excel_file_path = 'metabolites_with_cids.xlsx'
+
+metabolite_names = read_metabolite_names_from_excel(input_excel_file_path)
+
+cids = fetch_cids(metabolite_names)
+
+save_cids_to_excel(cids, output_excel_file_path)
+
+print(f"Results have been saved to {output_excel_file_path}")
