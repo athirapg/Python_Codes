@@ -15,3 +15,6 @@ split.py
 
 Pubchem_id_fetch.py
   To fetch Pubchem ids for metabolites
+
+Genesymbol_from_UniProt.py
+  To fetch genesymbols for a list of UniProt ids from UniProt database
